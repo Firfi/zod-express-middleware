@@ -13,10 +13,10 @@ export declare type RequestValidation<TParams, TQuery, TBody> = {
   query?: ZodSchema<TQuery>;
   body?: ZodSchema<TBody>;
 };
-export declare type RequestProcessing<TParams, TQuery, TBody> = {
-  params?: ZodEffects<any, TParams>;
-  query?: ZodEffects<any, TQuery>;
-  body?: ZodEffects<any, TBody>;
+export declare type RequestProcessing<TParamsOutput, TQueryOutput, TBodyOutput, TParamsInput = TParamsOutput, TQueryInput = TQueryOutput, TBodyInput = TBodyOutput> = {
+  params?: ZodEffects<any, TParamsOutput, TParamsInput>;
+  query?: ZodEffects<any, TQueryOutput, TParamsInput>;
+  body?: ZodEffects<any, TBodyOutput, TParamsInput>;
 };
 
 export declare type TypedRequest<
@@ -109,10 +109,9 @@ export function processRequestQuery<TQuery>(
     }
   };
 }
-
-export function processRequest<TParams = any, TQuery = any, TBody = any>(
-  schemas: RequestProcessing<TParams, TQuery, TBody>,
-): RequestHandler<TParams, any, TBody, TQuery>;
+export function processRequest<TParamsOutput = any, TQueryOutput = any, TBodyOutput = any, TParamsInput = TParamsOutput, TQueryInput = TQueryOutput, TBodyInput = TBodyOutput>(
+  schemas: RequestProcessing<TParamsOutput, TQueryOutput, TBodyOutput, TParamsInput, TQueryInput, TBodyInput>,
+): RequestHandler<TParamsOutput, any, TBodyOutput, TQueryOutput>;
 export function processRequest<TParams = any, TQuery = any, TBody = any>(
   schemas: RequestValidation<TParams, TQuery, TBody>,
 ): RequestHandler<TParams, any, TBody, TQuery>;
